@@ -1,0 +1,41 @@
+# Node.js
+node_modules/
+npm-debug.log
+yarn-error.log
+.env
+
+# Log files
+logs/
+*.log
+
+# Environment files
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Operating System files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.idea/
+.vscode/
+
+# Dependency directories
+jspm_packages/
+
+# Build directories
+dist/
+build/
+
+# Coverage directory
+coverage/
+
+# Temporary files
+*.swp
+*.swo
+
+# Optional: Ignore the database if you want to avoid pushing it
+*.db
+*.sqlite
