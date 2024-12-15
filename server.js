@@ -1,8 +1,8 @@
 const config = require('./config/db.js');
 const express = require('express');
-const provinciasRoutes = require('./routes/provinciasRoutes');
-const rolesRoutes = require('./routes/rolesRoutes');
-
+// const provinciasRoutes = require('./routes/provinciasRoutes');
+// const rolesRoutes = require('./routes/rolesRoutes');
+const controllerRoutes = require('./routes/controllerRoutes');
 const app = express();
 
 // Middleware para parsear JSON
@@ -14,8 +14,9 @@ console.log(`Starting server in ${config.dbConfig.env} mode...`);
 config.connectToDatabase();
 
 // Rutas
-app.use('/api/provincias', provinciasRoutes);
-app.use('/api/roles', rolesRoutes);
+app.use('/api', controllerRoutes );
+// app.use('/api/provincias', provinciasRoutes);
+// app.use('/api/roles', rolesRoutes);
 
 
 // Ruta de prueba para verificar que todo funciona
