@@ -1,5 +1,6 @@
 const dotenv = require('dotenv');
 const path = require('path');
+const sql = require('mssql');
 
 
 // Carga el archivo .env basado en NODE_ENV
@@ -23,18 +24,34 @@ console.log("Configuraciones cargadas:", {
 });
 
 // Configuraciones exportadas
-module.exports = {
-  NODE_ENV: process.env.NODE_ENV,
-  HOST: process.env.HOST ,
-  PORT: process.env.PORT,
+const dbConfig = {
+  host: process.env.HOST,
+  env: process.env.NODE_ENV,
+  port : process.env.PORT,
   DB: {
-    SERVER: process.env.DB_SERVER ,
-    DATABASE: process.env.DB_DATABASE,
-    TRUST_CERTIFICATE: process.env.DB_TRUST_CERTIFICATE === 'true',
-    AUTH_TYPE: process.env.DB_AUTH_TYPE,
-    DOMAIN: process.env.DB_DOMAIN,
-    USER: process.env.DB_USER ,
-    PASSWORD: process.env.DB_PASSWORD
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    server: process.env.DB_SERVER,
+    database: process.env.DB_DATABASE,
+    port: parseInt(process.env.DB_PORT, 10),
+    options: {
+      encrypt: true, // Usar true si está en Azure
+      trustServerCertificate: true, // Usar true para desarrollo local
+    }
   }
 };
 
+async function connectToDatabase() {
+  try {
+    const pool = await sql.connect(dbConfig.DB);
+    console.log('Conexión exitosa a SQL Server');
+    return pool;
+  } catch (err) {
+    console.error('Error al conectar a SQL Server:', err);
+  }
+}
+
+module.exports = {
+  dbConfig,
+  connectToDatabase
+};

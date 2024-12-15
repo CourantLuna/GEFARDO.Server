@@ -9,8 +9,9 @@ const app = express();
 app.use(express.json());
 
 
-console.log(`Starting server in ${config.NODE_ENV} mode...`);
+console.log(`Starting server in ${config.dbConfig.env} mode...`);
 // Conexión a la base de datos
+config.connectToDatabase();
 
 // Rutas
 app.use('/api/provincias', provinciasRoutes);
@@ -24,6 +25,6 @@ app.get('/', (req, res) => {
 
 
 // Inicia el servidor Express
-app.listen(config.PORT, config.HOST, () => {
-  console.log(`Server running at http://${config.HOST}:${config.PORT}`);
+app.listen(config.dbConfig.port, config.dbConfig.host, () => {
+  console.log(`Server running at http://${config.dbConfig.host}:${config.dbConfig.port}`);
 });
