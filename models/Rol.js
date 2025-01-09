@@ -3,11 +3,10 @@ const sequelize = require('../config/sequelize');
 
 // Definir el modelo de Rol
 const Rol = sequelize.define('Rol', {
-  Rol_Id: {
+  Id_Rol: {
     type: DataTypes.INTEGER,
     primaryKey: true,
-    autoIncrement: true,
-    allowNull: false,
+    autoIncrement: true
   },
   Nombre_Rol: {
     type: DataTypes.STRING(255),
@@ -16,6 +15,10 @@ const Rol = sequelize.define('Rol', {
   Nivel: {
     type: DataTypes.CHAR(1),  // Usamos CHAR(1) para 'A', 'M', 'B'
     allowNull: false,
+  },
+  Estado: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: 1
   }
 }, {
   tableName: 'Roles',  // Nombre de la tabla en la base de datos

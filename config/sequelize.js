@@ -4,11 +4,14 @@ const config = require('../config/db');
 // Configuración de Sequelize usando variables (.ENV) importadas desde config.js
 const sequelize = new Sequelize(config.DB.DATABASE, config.DB.USER, config.DB.PASSWORD, {
   host: config.DB.SERVER,
-  dialect: 'mssql',
+  dialect: 'mysql',
   dialectOptions: {
-    encrypt: true,
-    trustServerCertificate: true
-  }
+    ssl: {
+      require: true, // Habilita SSL si es requerido por Clever Cloud
+      rejectUnauthorized: false // Permite conexiones SSL sin validar el certificado (opcional)
+    }
+  },
+  logging: false
 });
 
 // Prueba la conexión
