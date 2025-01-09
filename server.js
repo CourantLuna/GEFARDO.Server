@@ -14,6 +14,8 @@ const servicioRoutes = require('./routes/servicioRoutes');
 const tipoFarmaciaRoutes = require('./routes/tipoFarmaciaRoutes');
 const tipoServicioRoutes = require('./routes/tipoServicioRoutes');
 const usuarioRoutes = require('./routes/usuarioRoutes');
+const usuarioRolesRoutes = require('./routes/usuarioRolesRoutes');
+
 
 const app = express();
 
@@ -35,6 +37,8 @@ app.use('/api/servicios', servicioRoutes);
 app.use('/api/tipos-farmacia', tipoFarmaciaRoutes);
 app.use('/api/tipos-servicio', tipoServicioRoutes);
 app.use('/api/usuarios', usuarioRoutes);
+app.use('/api/usuarioRoles', usuarioRolesRoutes);
+
 
 // Ruta de prueba para verificar que todo funciona
 app.get('/', (req, res) => {
