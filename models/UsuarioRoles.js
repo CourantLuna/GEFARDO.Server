@@ -1,29 +1,28 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/sequelize');
 
-// Definir el modelo de Usuario_Roles
 const UsuarioRoles = sequelize.define('UsuarioRoles', {
-  Id_Usuario: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    references: {
-      model: 'Usuarios', // Tabla de usuarios
-      key: 'Id_Usuario'
+    Id_Usuario: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: 'Usuarios', // Nombre de la tabla Usuarios
+            key: 'Id_Usuario',
+        },
+        primaryKey: true,
     },
-    primaryKey: true
-  },
-  Id_Rol: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    references: {
-      model: 'Roles', // Tabla de roles
-      key: 'Id_Rol'
+    Id_Rol: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: 'Roles', // Nombre de la tabla Roles
+            key: 'Id_Rol',
+        },
+        primaryKey: true,
     },
-    primaryKey: true
-  }
 }, {
-  tableName: 'Usuario_Roles', // Nombre de la tabla en la base de datos
-  timestamps: false           // Desactiva las columnas createdAt y updatedAt
+    tableName: 'Usuario_Roles', // Asegúrate de que este es el nombre correcto de la tabla en SQL
+    timestamps: false, // Desactiva createdAt y updatedAt
 });
 
 module.exports = UsuarioRoles;
