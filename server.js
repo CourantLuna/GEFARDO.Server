@@ -1,5 +1,6 @@
 const config = require('./config/db.js');
 const express = require('express');
+const cors = require('cors');
 
 // Importar middleware
 const { authMiddleware } = require('./middlewares/auth.middleware');
@@ -10,6 +11,12 @@ const publicRoutes = require('./routes/public.routes'); // Agrupación de rutas 
 const protectedRoutes = require('./routes/protected.routes'); // Agrupación de rutas protegidas
 
 const app = express();
+
+// Configurar CORS para permitir el frontend
+app.use(cors({
+  origin: 'http://localhost:3000', // URL del frontend
+  credentials: true, // Permite enviar cookies o encabezados de autenticación
+}));
 
 // Middleware para parsear JSON
 app.use(express.json());
