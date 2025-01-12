@@ -61,7 +61,7 @@ exports.login = async (req, res) => {
         // Comparar la contraseña con el hash almacenado
         const isPasswordValid = await bcrypt.compare(Clave, usuario.Clave);
         if (!isPasswordValid) {
-            return res.status(401).json({ message: 'Contraseña incorrecta' });
+            return res.status(401).json({ message: 'Credenciales incorrectas' });
         }
 
         // Obtener roles del usuario
