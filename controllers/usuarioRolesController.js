@@ -1,4 +1,5 @@
-const { sequelize, Roles, UsuarioRoles } = require('../models');
+const { Roles, UsuarioRoles } = require('../models');
+
 
 // Obtener todos los roles de usuario
 exports.getAllUsuarioRoles = async (req, res) => {
@@ -44,29 +45,6 @@ exports.getUsuarioRolById = async (req, res) => {
     }
 };
 
-// Actualizar un rol de usuario
-exports.updateUsuarioRol = async (req, res) => {
-    try {
-        const { idUsuario, idRol } = req.params;
-        const usuarioRol = await UsuarioRoles.findOne({
-            where: {
-                Id_Usuario: idUsuario,
-                Id_Rol: idRol,
-            },
-        });
-
-        if (!usuarioRol) {
-            return res.status(404).json({ message: 'UsuarioRol no encontrado' });
-        }
-
-        await usuarioRol.update(req.body);
-        res.status(200).json(usuarioRol);
-    } catch (error) {
-        console.error('Error al actualizar UsuarioRol:', error);
-        res.status(500).json({ error: 'Error al actualizar el rol de usuario' });
-    }
-};
-
 // Eliminar un rol de usuario
 exports.deleteUsuarioRol = async (req, res) => {
     try {
@@ -90,29 +68,31 @@ exports.deleteUsuarioRol = async (req, res) => {
     }
 };
 
+
 // Obtener todos los roles de un usuario específico
 exports.getRolesByUsuarioId = async (req, res) => {
-  try {
-      const { idUsuario } = req.params;
+    try {
+        const { idUsuario } = req.params;
 
-      // Consulta para obtener los roles del usuario
-      const roles = await UsuarioRoles.findAll({
-          where: { Id_Usuario: idUsuario },
-          include: [
-              {
-                  model: Roles, // Incluye el modelo de Roles
-                  attributes: ['Rol_Id', 'Nombre_Rol', 'Nivel'], // Asegúrate de cambiar los nombres según tu modelo
-              },
-          ],
-      });
+        const roles = await UsuarioRoles.findAll({
+            where: { Id_Usuario: idUsuario },
+            include: [
+                {
+                    model: Roles, // Asegúrate de que este modelo está correctamente configurado
+                    attributes: ['Id_Rol', 'Nombre_Rol', 'Nivel'], // Campos a incluir de Roles
+                },
+            ],
+        });
 
-      if (roles.length === 0) {
-          return res.status(404).json({ message: 'No se encontraron roles para este usuario' });
-      }
+        if (!roles || roles.length === 0) {
+            return res.status(404).json({ message: 'UsuarioRol no encontrado' });
+        }
 
-      res.status(200).json(roles);
-  } catch (error) {
-      console.error('Error al obtener los roles del usuario:', error);
-      res.status(500).json({ error: 'Error al obtener los roles del usuario' });
-  }
+        res.status(200).json(roles);
+    } catch (error) {
+        console.error('Error al obtener los roles del usuario:', error);
+        res.status(500).json({ error: 'Error al obtener los roles del usuario' });
+    }
 };
+
+

@@ -25,4 +25,6 @@ const UsuarioRoles = sequelize.define('UsuarioRoles', {
     timestamps: false, // Desactiva createdAt y updatedAt
 });
 
+// Configurar relaciones
+
 module.exports = UsuarioRoles;
