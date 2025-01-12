@@ -1,5 +1,6 @@
 const express = require('express');
 
+
 // Importar rutas protegidas
 const provinciasRoutes = require('./provinciasRoutes');
 const rolesRoutes = require('./rolesRoutes');
@@ -30,6 +31,6 @@ router.use('/servicios', servicioRoutes);
 router.use('/tipos-farmacia', tipoFarmaciaRoutes);
 router.use('/tipos-servicio', tipoServicioRoutes);
 router.use('/usuarios', usuarioRoutes);
-router.use('/api/usuarioRoles', usuarioRolesRoutes);
+router.use('/usuarioRoles', usuarioRolesRoutes);
 
 module.exports = router;

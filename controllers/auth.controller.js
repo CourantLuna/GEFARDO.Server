@@ -6,20 +6,44 @@ const bcrypt = require('bcryptjs');
 
 exports.register = async (req, res) => {
     try {
-        const { Correo_Electronico, Clave, Nombre } = req.body;
+        const { Correo_Electronico, Clave, Nombre, Apellido, Estado } = req.body;
+
+        // Verificar que se proporcionen todos los campos requeridos
+        if (!Correo_Electronico || !Clave || !Nombre || !Apellido) {
+            return res.status(400).json({ message: 'Todos los campos son obligatorios: Nombre, Apellido, Correo_Electronico, Clave.' });
+        }
 
         // Encriptar la contraseña con bcrypt
         const hashedPassword = await bcrypt.hash(Clave, 10);
 
+        // Crear el usuario
         const usuario = await Usuario.create({
             Correo_Electronico,
             Clave: hashedPassword,
-            Nombre
+            Nombre,
+            Apellido,
+            Estado: Estado !== undefined ? Estado : true, // Si no se proporciona Estado, asignar true
         });
 
-        res.status(201).json({ message: 'Usuario registrado con éxito', usuario });
+        // Responder con éxito
+        res.status(201).json({
+            message: 'Usuario registrado con éxito',
+            usuario: {
+                Id_Usuario: usuario.Id_Usuario,
+                Nombre: usuario.Nombre,
+                Apellido: usuario.Apellido,
+                Correo_Electronico: usuario.Correo_Electronico,
+                Estado: usuario.Estado,
+            },
+        });
     } catch (error) {
         console.error('Error en registro:', error);
+
+        // Manejar errores de unicidad (por ejemplo, email duplicado)
+        if (error.name === 'SequelizeUniqueConstraintError') {
+            return res.status(400).json({ message: 'El correo electrónico ya está registrado.' });
+        }
+
         res.status(500).json({ message: 'Error interno del servidor' });
     }
 };
