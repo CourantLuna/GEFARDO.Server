@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/sequelize');
+const Rol = require('./Rol');
 
 // Definir el modelo de Usuario_Roles
 const UsuarioRoles = sequelize.define('UsuarioRoles', {
@@ -24,6 +25,11 @@ const UsuarioRoles = sequelize.define('UsuarioRoles', {
 }, {
   tableName: 'Usuario_Roles', // Nombre de la tabla en la base de datos
   timestamps: false           // Desactiva las columnas createdAt y updatedAt
+});
+
+UsuarioRoles.belongsTo(Rol, {
+  foreignKey: 'Id_Rol',
+  as: 'Rol'
 });
 
 module.exports = UsuarioRoles;

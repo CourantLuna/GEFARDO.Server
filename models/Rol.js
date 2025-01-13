@@ -12,10 +12,6 @@ const Rol = sequelize.define('Rol', {
     type: DataTypes.STRING(255),
     allowNull: false,
   },
-  Nivel: {
-    type: DataTypes.CHAR(1),  // Usamos CHAR(1) para 'A', 'M', 'B'
-    allowNull: false,
-  },
   Estado: {
     type: DataTypes.BOOLEAN,
     defaultValue: 1
