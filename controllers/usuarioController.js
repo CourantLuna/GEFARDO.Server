@@ -48,6 +48,7 @@ exports.updateUsuario = async (req, res) => {
       return res.status(404).json({ message: 'Usuario no encontrado' });
     }
 
+    // Actualizar solo las propiedades enviadas
     await usuario.update(req.body);
     res.json({ message: 'Usuario actualizado con éxito', usuario });
   } catch (err) {
