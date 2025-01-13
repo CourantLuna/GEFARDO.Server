@@ -4,7 +4,7 @@ const config = require('../config/db');
 const SECRET_KEY = config.JWT_SECRET;
 
 exports.generateToken = (payload) => {
-    console.log('GenerateToken: Generando token con clave:', SECRET_KEY);
+    // console.log('GenerateToken: Generando token con clave:', SECRET_KEY);
 
     return jwt.sign(payload, SECRET_KEY, { expiresIn: '1h' });
 };
@@ -12,8 +12,8 @@ exports.generateToken = (payload) => {
 
 exports.verifyToken = (token) => {
     try {
-    console.log('VerifyToken: Verificando token con clave:', SECRET_KEY);
-    console.log('Token recibido:', token);
+    // console.log('VerifyToken: Verificando token con clave:', SECRET_KEY);
+    // console.log('Token recibido:', token);
     return jwt.verify(token, SECRET_KEY);
     } catch (err) {
         if (err.name === 'TokenExpiredError') {
