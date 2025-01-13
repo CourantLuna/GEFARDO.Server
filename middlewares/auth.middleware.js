@@ -10,9 +10,9 @@ exports.authMiddleware = (req, res, next) => {
 
     try {
         const decoded = verifyToken(token); // Llama a verifyToken correctamente
-        req.user = decoded; // Agrega el usuario al request
+        req.user = decoded; // Adjunta el payload decodificado al request
         next();
     } catch (err) {
-        return res.status(403).json({ message: 'Token inválido o expirado' });
+        return res.status(403).json({ message: err.message });
     }
 };
