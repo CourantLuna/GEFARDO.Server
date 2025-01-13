@@ -1,9 +1,20 @@
 const express = require('express');
-const usuarioRolesRoutes = require('./routes/usuarioRolesRoutes');
-const app = express();
+const {
+    getAllUsuarioRoles,
+    addUsuarioRol,
+    getUsuarioRolById,
+    deleteUsuarioRol,
+    getRolesByUsuarioId, // Nuevo método
+} = require('../controllers/usuarioRolesController');
 
-app.use(express.json());
-app.use('/api/usuario-roles', usuarioRolesRoutes);
+const router = express.Router();
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Servidor corriendo en el puerto ${PORT}`));
+// Rutas
+router.get('/:idUsuario/:idRol', getUsuarioRolById); // Obtener UsuarioRol por ID compuesto
+router.get('/', getAllUsuarioRoles); // Obtener todos los UsuarioRoles
+router.post('/', addUsuarioRol); // Crear un nuevo UsuarioRol
+router.delete('/:idUsuario/:idRol', deleteUsuarioRol); // Eliminar UsuarioRol
+router.get('/usuario/roles/:idUsuario', getRolesByUsuarioId); // Obtener todos los roles de un usuario
+
+
+module.exports = router;
