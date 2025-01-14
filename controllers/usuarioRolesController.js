@@ -79,7 +79,7 @@ exports.getRolesByUsuarioId = async (req, res) => {
             include: [
                 {
                     model: Roles, // Asegúrate de que este modelo está correctamente configurado
-                    attributes: ['Id_Rol', 'Nombre_Rol', 'Nivel'], // Campos a incluir de Roles
+                    attributes: ['Id_Rol', 'Nombre_Rol'], // Campos a incluir de Roles
                 },
             ],
         });
