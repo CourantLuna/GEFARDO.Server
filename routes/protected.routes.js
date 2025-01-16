@@ -16,6 +16,11 @@ const tipoServicioRoutes = require('./tipoServicioRoutes');
 const usuarioRoutes = require('./usuarioRoutes');
 const usuarioRolesRoutes = require('./usuarioRolesRoutes');
 
+const listasVerificacionRoutes = require('./listasVerificacionRoutes');
+
+const accionesSeguimientoRoutes = require('./accionesSeguimientoRoutes');
+const clasificacionRiesgoRoutes = require('./ClasificacionRiesgoRoutes');
+
 const router = express.Router();
 
 // Agregar rutas protegidas
@@ -32,5 +37,9 @@ router.use('/tipos-farmacia', tipoFarmaciaRoutes);
 router.use('/tipos-servicio', tipoServicioRoutes);
 router.use('/usuarios', usuarioRoutes);
 router.use('/usuarioRoles', usuarioRolesRoutes);
+router.use('/acciones-seguimiento', accionesSeguimientoRoutes);
+router.use('/clasificaciones-riesgo', clasificacionRiesgoRoutes);
+router.use('/listas-verificacion', listasVerificacionRoutes);
+
 
 module.exports = router;

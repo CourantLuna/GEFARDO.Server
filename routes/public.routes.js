@@ -6,5 +6,4 @@ const router = express.Router();
 
 // Agregar rutas públicas
 
-
 module.exports = router;
