@@ -19,7 +19,6 @@ const usuarioRolesRoutes = require('./usuarioRolesRoutes');
 const listasVerificacionRoutes = require('./listasVerificacionRoutes');
 const flujoEstadosServicioRoutes = require('./flujoEstadosServiciosRoutes.js'); // Ajusta la ruta según la ubicación
 
-const sancionesRoutes = require('./sancionesRoutes');
 const accionesSeguimientoRoutes = require('./accionesSeguimientoRoutes');
 const clasificacionRiesgoRoutes = require('./ClasificacionRiesgoRoutes');
 const hallazgosRoutes = require('./hallazgosRoutes');
