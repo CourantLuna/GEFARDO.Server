@@ -2,6 +2,7 @@ const config = require('./config/db.js');
 const express = require('express');
 const cors = require('cors');
 
+
 // Importar middleware
 const { authMiddleware } = require('./middlewares/auth.middleware');
 
@@ -27,7 +28,7 @@ console.log(`Starting server in ${config.NODE_ENV} mode...`);
 // Estas rutas no requieren autenticación
 app.use('/auth', authRoutes);
 app.use('/api/public', publicRoutes);
-
+// Registrar rutas con el prefijo correspondiente
 
 // **RUTAS PROTEGIDAS**
 // Estas rutas requieren autenticación

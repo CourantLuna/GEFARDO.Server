@@ -57,4 +57,7 @@ const Inspeccion = sequelize.define('Inspeccion', {
   timestamps: false          // Desactiva las columnas createdAt y updatedAt
 });
 
+
+
+
 module.exports = Inspeccion;

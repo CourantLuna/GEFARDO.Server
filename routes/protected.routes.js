@@ -17,9 +17,14 @@ const usuarioRoutes = require('./usuarioRoutes');
 const usuarioRolesRoutes = require('./usuarioRolesRoutes');
 
 const listasVerificacionRoutes = require('./listasVerificacionRoutes');
+const flujoEstadosServicioRoutes = require('./flujoEstadosServiciosRoutes.js'); // Ajusta la ruta según la ubicación
 
+const sancionesRoutes = require('./sancionesRoutes');
 const accionesSeguimientoRoutes = require('./accionesSeguimientoRoutes');
 const clasificacionRiesgoRoutes = require('./ClasificacionRiesgoRoutes');
+const hallazgosRoutes = require('./hallazgosRoutes');
+
+
 
 const router = express.Router();
 
@@ -40,6 +45,8 @@ router.use('/usuarioRoles', usuarioRolesRoutes);
 router.use('/acciones-seguimiento', accionesSeguimientoRoutes);
 router.use('/clasificaciones-riesgo', clasificacionRiesgoRoutes);
 router.use('/listas-verificacion', listasVerificacionRoutes);
-
+router.use('/flujo-estados-servicio', flujoEstadosServicioRoutes);
+router.use('/hallazgos', hallazgosRoutes);
+router.use('/sanciones', sancionesRoutes);
 
 module.exports = router;
