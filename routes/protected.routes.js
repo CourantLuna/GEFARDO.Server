@@ -47,6 +47,5 @@ router.use('/clasificaciones-riesgo', clasificacionRiesgoRoutes);
 router.use('/listas-verificacion', listasVerificacionRoutes);
 router.use('/flujo-estados-servicio', flujoEstadosServicioRoutes);
 router.use('/hallazgos', hallazgosRoutes);
-router.use('/sanciones', sancionesRoutes);
 
 module.exports = router;
