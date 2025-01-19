@@ -1,5 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/sequelize');
+const Provincia = require('../models/Provincia');
+
 
 // Definir el modelo de Farmacia
 const Farmacia = sequelize.define('Farmacia', {
@@ -69,5 +71,8 @@ const Farmacia = sequelize.define('Farmacia', {
   tableName: 'Farmacias', // Nombre de la tabla en la base de datos
   timestamps: false       // Desactiva las columnas createdAt y updatedAt
 });
+
+Farmacia.belongsTo(Provincia, { foreignKey: 'Id_Provincia', as: 'Provincia' });
+
 
 module.exports = Farmacia;

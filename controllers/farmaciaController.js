@@ -1,10 +1,31 @@
 const Farmacia = require('../models/Farmacia');
 
+
 // Obtener todas las farmacias
 exports.getAllFarmacias = async (req, res) => {
   try {
-    const farmacias = await Farmacia.findAll();
-    res.json(farmacias);
+    const Provincia = require('../models/Provincia'); // Importar el modelo de Provincia
+
+const farmacias = await Farmacia.findAll({
+  include: [
+    {
+      model: Provincia, // Modelo relacionado
+      as: 'Provincia', // Alias definido en las asociaciones
+      attributes: ['Descripcion'], // Solo traer el campo necesario
+    },
+  ],
+});
+
+const farmaciasConProvincias = farmacias.map((farmacia) => {
+  const { Provincia, ...farmaciaData } = farmacia.toJSON(); // Extraer y omitir Provincia
+  return {
+    ...farmaciaData,
+    Nombre_Provincia: Provincia ? Provincia.Descripcion : null,
+  };
+});
+
+res.json(farmaciasConProvincias);
+
   } catch (err) {
     console.error("Error al obtener farmacias:", err);
     res.status(500).json({ error: 'Error al obtener las farmacias' });
