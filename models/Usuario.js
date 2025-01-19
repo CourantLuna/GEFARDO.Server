@@ -7,6 +7,11 @@ const Usuario = sequelize.define('Usuario', {
     primaryKey: true,
     autoIncrement: true
   },
+  Cedula: {
+    type: DataTypes.STRING(11), // Nuevo campo Cedula
+    allowNull: false,
+    unique: true,              // Asegura que no haya duplicados
+  },
   Nombre: {
     type: DataTypes.STRING(255),
     allowNull: false,
