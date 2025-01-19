@@ -20,6 +20,11 @@ const Farmacia = sequelize.define('Farmacia', {
     type: DataTypes.STRING(20),
     allowNull: true
   },
+  RNC: {
+    type: DataTypes.STRING(9), // Nuevo campo RNC
+    allowNull: false,           // Obligatorio, puedes cambiarlo si debe ser opcional
+    unique: true                // Asegura que no se repita
+  },
   Id_Provincia: {
     type: DataTypes.INTEGER,
     allowNull: true,

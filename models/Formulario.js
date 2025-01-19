@@ -39,6 +39,11 @@ const Formulario = sequelize.define('Formulario', {
   Campos_Formulario: {
     type: DataTypes.TEXT,
     allowNull: false // JSON que define la estructura del formulario
+  },
+  Estado: {
+    type: DataTypes.BOOLEAN, // Usamos BOOLEAN para representar el tipo bit en BD
+    allowNull: false,
+    defaultValue: true // Puedes ajustar el valor predeterminado según la lógica
   }
 }, {
   tableName: 'Formularios', // Nombre de la tabla en la base de datos
