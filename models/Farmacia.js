@@ -1,6 +1,8 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/sequelize');
+
 const Provincia = require('../models/Provincia');
+const Usuario = require('./Usuario');
 
 
 // Definir el modelo de Farmacia
@@ -24,7 +26,7 @@ const Farmacia = sequelize.define('Farmacia', {
   },
   RNC: {
     type: DataTypes.STRING(9), // Nuevo campo RNC
-    allowNull: false,           // Obligatorio, puedes cambiarlo si debe ser opcional
+    allowNull: false,           
     unique: true                // Asegura que no se repita
   },
   Id_Provincia: {
@@ -66,13 +68,14 @@ const Farmacia = sequelize.define('Farmacia', {
   Estado: {
     type: DataTypes.BOOLEAN,
     defaultValue: true
-  }
+  },
 }, {
   tableName: 'Farmacias', // Nombre de la tabla en la base de datos
   timestamps: false       // Desactiva las columnas createdAt y updatedAt
 });
 
 Farmacia.belongsTo(Provincia, { foreignKey: 'Id_Provincia', as: 'Provincia' });
+Farmacia.belongsTo(Usuario, { foreignKey: 'Responsable_Tecnico', as: 'Responsable' });
 
 
 module.exports = Farmacia;

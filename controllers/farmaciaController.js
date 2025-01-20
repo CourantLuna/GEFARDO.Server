@@ -5,6 +5,7 @@ const Farmacia = require('../models/Farmacia');
 exports.getAllFarmacias = async (req, res) => {
   try {
     const Provincia = require('../models/Provincia'); // Importar el modelo de Provincia
+    const Usuario = require('../models/Usuario'); // Importar el modelo de Usuario
 
 const farmacias = await Farmacia.findAll({
   include: [
@@ -13,18 +14,27 @@ const farmacias = await Farmacia.findAll({
       as: 'Provincia', // Alias definido en las asociaciones
       attributes: ['Descripcion'], // Solo traer el campo necesario
     },
+    {
+      model: Usuario, // Relación con la tabla Usuarios
+      as: 'Responsable', // Alias de la asociación
+      attributes: ['Nombre', 'Apellido'], // Traer los campos necesarios
+    },
   ],
 });
 
-const farmaciasConProvincias = farmacias.map((farmacia) => {
-  const { Provincia, ...farmaciaData } = farmacia.toJSON(); // Extraer y omitir Provincia
+// Modificar el resultado para agregar los campos procesados
+const farmaciasConDetalles = farmacias.map((farmacia) => {
+  const { Provincia, Responsable, ...farmaciaData } = farmacia.toJSON(); // Extraer y omitir datos sin procesar
   return {
     ...farmaciaData,
     Nombre_Provincia: Provincia ? Provincia.Descripcion : null,
+    Nombre_Responsable: Responsable
+      ? `${Responsable.Nombre} ${Responsable.Apellido}`
+      : null,
   };
 });
 
-res.json(farmaciasConProvincias);
+res.json(farmaciasConDetalles);
 
   } catch (err) {
     console.error("Error al obtener farmacias:", err);
