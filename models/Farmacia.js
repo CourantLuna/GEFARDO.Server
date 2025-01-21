@@ -5,8 +5,6 @@ const Provincia = require('../models/Provincia');
 const Usuario = require('./Usuario');
 const TipoFarmacia = require('./TipoFarmacia'); // Importar el modelo TipoFarmacia
 
-
-
 // Definir el modelo de Farmacia
 const Farmacia = sequelize.define('Farmacia', {
   Id_Farmacia: {
