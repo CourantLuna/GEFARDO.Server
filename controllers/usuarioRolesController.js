@@ -25,7 +25,7 @@ exports.getAllUsersByRolId = async (req, res) => {
 
         // Consulta con relaciones
         const usuariosRoles = await UsuarioRoles.findAll({
-            where: { Id_Rol: 4 },
+            where: { Id_Rol: rol },
             include: [
                 {
                     model: Usuarios,
