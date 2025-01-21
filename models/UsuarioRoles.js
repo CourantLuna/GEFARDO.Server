@@ -1,5 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/sequelize');
+const Usuarios = require('../models/Usuario'); // Modelo Usuarios
+const Roles = require('../models/Rol'); // Modelo Roles
 
 const UsuarioRoles = sequelize.define('UsuarioRoles', {
     Id_Usuario: {
@@ -26,5 +28,7 @@ const UsuarioRoles = sequelize.define('UsuarioRoles', {
 });
 
 // Configurar relaciones
+UsuarioRoles.belongsTo(Usuarios, { foreignKey: 'Id_Usuario' });
+UsuarioRoles.belongsTo(Roles, { foreignKey: 'Id_Rol' });
 
 module.exports = UsuarioRoles;

@@ -34,7 +34,9 @@ app.use('/public', publicRoutes);
 
 // **RUTAS PROTEGIDAS**
 // Estas rutas requieren autenticación
-app.use('/api', authMiddleware, protectedRoutes);
+app.use('/api', protectedRoutes);
+// app.use('/api', authMiddleware, protectedRoutes);
+
 app.use('/general', generalRoutes);
 
 
