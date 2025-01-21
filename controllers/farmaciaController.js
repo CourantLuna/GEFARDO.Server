@@ -4,41 +4,48 @@ const Farmacia = require('../models/Farmacia');
 // Obtener todas las farmacias
 exports.getAllFarmacias = async (req, res) => {
   try {
-    const Provincia = require('../models/Provincia'); // Importar el modelo de Provincia
-    const Usuario = require('../models/Usuario'); // Importar el modelo de Usuario
+    const Provincia = require("../models/Provincia"); // Importar el modelo de Provincia
+    const Usuario = require("../models/Usuario"); // Importar el modelo de Usuario
+    const TipoFarmacia = require("../models/TipoFarmacia"); // Importar el modelo TipoFarmacia
 
-const farmacias = await Farmacia.findAll({
-  include: [
-    {
-      model: Provincia, // Modelo relacionado
-      as: 'Provincia', // Alias definido en las asociaciones
-      attributes: ['Descripcion'], // Solo traer el campo necesario
-    },
-    {
-      model: Usuario, // Relación con la tabla Usuarios
-      as: 'Responsable', // Alias de la asociación
-      attributes: ['Nombre', 'Apellido'], // Traer los campos necesarios
-    },
-  ],
-});
+    const farmacias = await Farmacia.findAll({
+      include: [
+        {
+          model: Provincia, // Modelo relacionado
+          as: "Provincia", // Alias definido en las asociaciones
+          attributes: ["Descripcion"], // Solo traer el campo necesario
+        },
+        {
+          model: Usuario, // Relación con la tabla Usuarios
+          as: "Responsable", // Alias de la asociación
+          attributes: ["Nombre", "Apellido"], // Traer los campos necesarios
+        },
+        {
+          model: TipoFarmacia, // Relación con TipoFarmacia
+          as: "TipoFarmacia",
+          attributes: ["Descripcion"], // Solo traer el campo necesario
+        },
+      ],
+    });
 
-// Modificar el resultado para agregar los campos procesados
-const farmaciasConDetalles = farmacias.map((farmacia) => {
-  const { Provincia, Responsable, ...farmaciaData } = farmacia.toJSON(); // Extraer y omitir datos sin procesar
-  return {
-    ...farmaciaData,
-    Nombre_Provincia: Provincia ? Provincia.Descripcion : null,
-    Nombre_Responsable: Responsable
-      ? `${Responsable.Nombre} ${Responsable.Apellido}`
-      : null,
-  };
-});
+    // Modificar el resultado para agregar los campos procesados
+    const farmaciasConDetalles = farmacias.map((farmacia) => {
+      const { Provincia, Responsable, TipoFarmacia, ...farmaciaData } =
+        farmacia.toJSON(); // Extraer y omitir datos sin procesar
+      return {
+        ...farmaciaData,
+        Nombre_Provincia: Provincia ? Provincia.Descripcion : null,
+        Nombre_Responsable: Responsable
+          ? `${Responsable.Nombre} ${Responsable.Apellido}`
+          : null,
+        Nombre_Tipo_Farmacia: TipoFarmacia ? TipoFarmacia.Descripcion : null, // Agregar el nuevo campo
+      };
+    });
 
-res.json(farmaciasConDetalles);
-
+    res.json(farmaciasConDetalles);
   } catch (err) {
     console.error("Error al obtener farmacias:", err);
-    res.status(500).json({ error: 'Error al obtener las farmacias' });
+    res.status(500).json({ error: "Error al obtener las farmacias" });
   }
 };
 

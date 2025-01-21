@@ -3,6 +3,8 @@ const sequelize = require('../config/sequelize');
 
 const Provincia = require('../models/Provincia');
 const Usuario = require('./Usuario');
+const TipoFarmacia = require('./TipoFarmacia'); // Importar el modelo TipoFarmacia
+
 
 
 // Definir el modelo de Farmacia
@@ -76,6 +78,9 @@ const Farmacia = sequelize.define('Farmacia', {
 
 Farmacia.belongsTo(Provincia, { foreignKey: 'Id_Provincia', as: 'Provincia' });
 Farmacia.belongsTo(Usuario, { foreignKey: 'Responsable_Tecnico', as: 'Responsable' });
-
+Farmacia.belongsTo(TipoFarmacia, { 
+  foreignKey: 'Id_Tipo_Farmacia', 
+  as: 'TipoFarmacia' // Alias para la relación
+});
 
 module.exports = Farmacia;
