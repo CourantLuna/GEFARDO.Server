@@ -32,7 +32,7 @@ const ListasVerificacion = sequelize.define('ListasVerificacion', {
     },
     ListaJson: {
         type: DataTypes.TEXT,
-        allowNull: false,
+        allowNull: true,
         defaultValue: '{"item_auditar": "", "conforme": false}',
     },
 }, {

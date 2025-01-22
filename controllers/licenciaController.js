@@ -3,13 +3,31 @@ const Licencia = require('../models/Licencia');
 // Obtener todas las licencias
 exports.getAllLicencias = async (req, res) => {
   try {
-    const licencias = await Licencia.findAll();
-    res.json(licencias);
+    const licencias = await Licencia.findAll({
+      include: {
+        model: require('../models/Farmacia'), // Relación con Farmacia
+        as: 'Farmacia', // Alias definido en el modelo Licencia
+        attributes: ['Nombre'], // Solo incluye el campo 'Nombre' de Farmacia
+      },
+    });
+
+    // Mapear los datos para agregar 'Nombre_Farmacia' y eliminar la clave 'Farmacia'
+    const licenciasConNombreFarmacia = licencias.map((licencia) => {
+      const licenciaData = licencia.toJSON();
+      return {
+        ...licenciaData,
+        Nombre_Farmacia: licenciaData.Farmacia?.Nombre || null, // Extraer el nombre de la farmacia
+      };
+    }).map(({ Farmacia, ...rest }) => rest); // Eliminar la clave 'Farmacia'
+
+    res.json(licenciasConNombreFarmacia);
   } catch (err) {
     console.error("Error al obtener licencias:", err);
     res.status(500).json({ error: 'Error al obtener las licencias' });
   }
 };
+
+
 
 // Obtener una licencia por ID
 exports.getLicenciaById = async (req, res) => {

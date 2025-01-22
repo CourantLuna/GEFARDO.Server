@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/sequelize');
+const Farmacia = require('./Farmacia'); // Importa el modelo de Farmacia
 
 // Definir el modelo de Licencia
 const Licencia = sequelize.define('Licencia', {
@@ -31,7 +32,8 @@ const Licencia = sequelize.define('Licencia', {
   },
   Estado_Licencia: {
     type: DataTypes.ENUM('Activa', 'Suspendida', 'Expirada'),
-    allowNull: false
+    allowNull: false,
+    defaultValue: 'Activa'
   }
 }, {
   tableName: 'Licencias', // Nombre de la tabla en la base de datos
@@ -39,3 +41,5 @@ const Licencia = sequelize.define('Licencia', {
 });
 
 module.exports = Licencia;
+// Relación: Una licencia pertenece a una farmacia
+Licencia.belongsTo(Farmacia, { foreignKey: 'Id_Farmacia', as: 'Farmacia' });

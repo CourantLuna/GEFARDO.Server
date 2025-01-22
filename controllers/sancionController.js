@@ -3,11 +3,30 @@ const Sancion = require('../models/Sancion');
 // Obtener todas las sanciones
 exports.getAllSanciones = async (req, res) => {
   try {
-    const sanciones = await Sancion.findAll();
-    res.json(sanciones);
-  } catch (err) {
-    console.error("Error al obtener sanciones:", err);
-    res.status(500).json({ error: 'Error al obtener las sanciones' });
+      const sanciones = await Sancion.findAll({
+          include: {
+              model: require('../models/Farmacia'), // Relación con Farmacia
+              as: 'Farmacia', // Alias definido en el modelo Sancion
+              attributes: ['Nombre'], // Solo incluye el campo 'Nombre' de Farmacia
+          },
+      });
+
+      // Mapear los datos para agregar 'Nombre_Farmacia' y eliminar la clave 'Farmacia'
+      const sancionesConNombreFarmacia = sanciones.map((sancion) => {
+          const sancionData = sancion.toJSON();
+          return {
+              ...sancionData,
+              Nombre_Farmacia: sancionData.Farmacia?.Nombre || null, // Extraer el nombre de la farmacia
+          };
+      }).map(({ Farmacia, ...rest }) => rest); // Eliminar la clave 'Farmacia'
+
+      res.status(200).json(sancionesConNombreFarmacia);
+  } catch (error) {
+      console.error('Error al obtener las sanciones:', error);
+      res.status(500).json({
+          message: 'Error al obtener las sanciones',
+          error: error.message,
+      });
   }
 };
 

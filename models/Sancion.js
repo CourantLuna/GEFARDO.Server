@@ -1,5 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/sequelize');
+const Farmacia = require('./Farmacia'); // Importa el modelo de Farmacia
+
 
 // Definir el modelo de Sanción
 const Sancion = sequelize.define('Sancion', {
@@ -38,3 +40,5 @@ const Sancion = sequelize.define('Sancion', {
 });
 
 module.exports = Sancion;
+// Relación: Una sanción pertenece a una farmacia
+Sancion.belongsTo(Farmacia, { foreignKey: 'Id_Farmacia', as: 'Farmacia' });
