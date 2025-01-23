@@ -32,6 +32,14 @@ const Usuario = sequelize.define('Usuario', {
   Estado: {
     type: DataTypes.BOOLEAN,
     defaultValue: true
+  },
+  Foto_Perfil: {
+    type: DataTypes.BLOB('long'), // Binary field for storing profile pictures
+    allowNull: true
+  },
+  Telefono: {
+    type: DataTypes.STRING(10), // Nuevo campo Cedula
+    allowNull: false,
   }
 }, {
   tableName: 'Usuarios', // Nombre de la tabla en la base de datos

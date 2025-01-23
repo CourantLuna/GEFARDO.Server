@@ -20,12 +20,23 @@ exports.getUsuarioById = async (req, res) => {
     if (!usuario) {
       return res.status(404).json({ message: 'Usuario no encontrado' });
     }
-    res.json(usuario);
+
+    const fotoBase64 = usuario.Foto_Perfil
+      ? `data:image/jpeg;base64,${usuario.Foto_Perfil.toString('base64')}`
+      : null;
+
+    const usuarioConFoto = {
+      ...usuario.toJSON(),
+      Foto_Perfil: fotoBase64,
+    };
+
+    res.json(usuarioConFoto);
   } catch (err) {
     console.error("Error al obtener usuario:", err);
     res.status(500).json({ error: 'Error al obtener el usuario' });
   }
 };
+
 
 // Insertar un nuevo usuario
 exports.addUsuario = async (req, res) => {
@@ -72,5 +83,26 @@ exports.deleteUsuario = async (req, res) => {
   } catch (err) {
     console.error("Error al eliminar usuario:", err);
     res.status(500).json({ error: 'Error al eliminar el usuario' });
+  }
+};
+
+//Subir foto de perfil de un usuario
+
+exports.uploadProfilePicture = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const usuario = await Usuario.findByPk(id);
+    if (!usuario) {
+      return res.status(404).json({ message: 'Usuario no encontrado' });
+    }
+
+    const fotoBuffer = req.file.buffer;
+    await usuario.update({ Foto_Perfil: fotoBuffer });
+
+    res.status(200).json({ message: 'Foto de perfil subida con éxito' });
+  } catch (err) {
+    console.error('Error al subir la foto de perfil:', err);
+    res.status(500).json({ error: 'Error al subir la foto de perfil' });
   }
 };
