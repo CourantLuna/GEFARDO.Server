@@ -1,8 +1,12 @@
 const express = require('express');
-const router = express.Router();
 const generalController = require('../controllers/generalController');
 
-// Endpoint para obtener un campo específico de una tabla
+const router = express.Router();
+
+// Ruta para obtener datos de cualquier tabla
 router.get('/:table', generalController.getFromTable);
+
+// Ruta para filtrar datos dinámicamente
+router.get('/filter/:table', generalController.filterByField);
 
 module.exports = router;
