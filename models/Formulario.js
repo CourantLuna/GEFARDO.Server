@@ -51,3 +51,15 @@ const Formulario = sequelize.define('Formulario', {
 });
 
 module.exports = Formulario;
+
+const Usuario = require('./Usuario'); // Asegúrate de importar el modelo Usuario
+
+Formulario.belongsTo(Usuario, {
+  foreignKey: 'Creado_Por',
+  as: 'Creador', // Alias para la relación
+});
+
+Formulario.belongsTo(Usuario, {
+  foreignKey: 'Modificado_Por',
+  as: 'Modificador', // Alias para la relación
+});

@@ -1,15 +1,46 @@
 const Formulario = require('../models/Formulario');
+const Usuario = require('../models/Usuario'); // Importa el modelo de Usuario si no está ya importado
 
 // Obtener todos los formularios
 exports.getAllFormularios = async (req, res) => {
   try {
-    const formularios = await Formulario.findAll();
-    res.json(formularios);
+    const formularios = await Formulario.findAll({
+      include: [
+        {
+          model: Usuario,
+          as: 'Creador',
+          attributes: ['Nombre', 'Apellido'], // Solo traemos Nombre y Apellido
+        },
+        {
+          model: Usuario,
+          as: 'Modificador',
+          attributes: ['Nombre', 'Apellido'], // Solo traemos Nombre y Apellido
+        },
+      ],
+    });
+
+    // Formatear el resultado para incluir los campos adicionales y excluir Creador y Modificador
+    const result = formularios.map((form) => {
+      const formData = form.toJSON();
+      return {
+        ...formData,
+        Nombre_Creador_Por: formData.Creador?.Nombre || null,
+        Apellido_Creador_Por: formData.Creador?.Apellido || null,
+        Nombre_Modificado_Por: formData.Modificador?.Nombre || null,
+        Apellido_Modificado_Por: formData.Modificador?.Apellido || null,
+      };
+    });
+
+    // Excluir las propiedades Creador y Modificador del resultado
+    const cleanedResult = result.map(({ Creador, Modificador, ...rest }) => rest);
+
+    res.json(cleanedResult);
   } catch (err) {
     console.error("Error al obtener formularios:", err);
     res.status(500).json({ error: 'Error al obtener los formularios' });
   }
 };
+
 
 // Obtener un formulario por ID
 exports.getFormularioById = async (req, res) => {
