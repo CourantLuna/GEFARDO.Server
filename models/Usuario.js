@@ -39,3 +39,9 @@ const Usuario = sequelize.define('Usuario', {
 });
 
 module.exports = Usuario;
+const Inspeccion = require('./Inspeccion');
+
+Usuario.hasMany(Inspeccion, {
+  foreignKey: 'Inspector',
+  as: 'Inspecciones',
+});

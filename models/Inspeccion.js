@@ -1,5 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/sequelize');
+const Usuario = require('./Usuario');
+const Farmacia = require('./Farmacia');
 
 // Definir el modelo de Inspección
 const Inspeccion = sequelize.define('Inspeccion', {
@@ -51,13 +53,20 @@ const Inspeccion = sequelize.define('Inspeccion', {
       model: 'Listas_Verificacion', // Nombre de la tabla Listas_Verificacion
       key: 'Id_Lista'
     }
-  }
+  },
+  Estado: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: 1,
+    allowNull: false,
+  },
 }, {
   tableName: 'Inspecciones', // Nombre de la tabla en la base de datos
   timestamps: false          // Desactiva las columnas createdAt y updatedAt
 });
-
-
-
-
+// Relaciones
+Inspeccion.belongsTo(Farmacia, { foreignKey: 'Id_Farmacia', as: 'Farmacia' });
+Inspeccion.belongsTo(Usuario, { foreignKey: 'Inspector', as: 'InspectorUsuario' });
 module.exports = Inspeccion;
+
+
+

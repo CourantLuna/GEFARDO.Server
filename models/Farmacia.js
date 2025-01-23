@@ -80,5 +80,9 @@ Farmacia.belongsTo(TipoFarmacia, {
   foreignKey: 'Id_Tipo_Farmacia', 
   as: 'TipoFarmacia' // Alias para la relación
 });
+  
+
 
 module.exports = Farmacia;
+
+

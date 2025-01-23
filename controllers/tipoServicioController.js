@@ -1,15 +1,35 @@
 const TipoServicio = require('../models/TipoServicio');
+const Formulario = require('../models/Formulario');
 
 // Obtener todos los tipos de servicio
+// Obtener todos los tipos de servicio con el Nombre_Formulario
 exports.getAllTiposServicio = async (req, res) => {
   try {
-    const tipos = await TipoServicio.findAll();
-    res.json(tipos);
+    const tipos = await TipoServicio.findAll({
+      include: [
+        {
+          model: Formulario, // Relación con el modelo Formulario
+          as: 'Formulario', // Asegúrate de usar el alias correcto si tienes uno definido
+          attributes: ['Nombre_Formulario'], // Incluye solo el campo necesario
+        },
+      ],
+    });
+
+    // Mapear los resultados para agregar `Nombre_Formulario` como un campo directo y omitir duplicidad
+    const tiposConNombreFormulario = tipos.map((tipo) => {
+      const tipoData = tipo.toJSON(); // Convierte el modelo a JSON para facilitar la manipulación
+      tipoData.Nombre_Formulario = tipoData.Formulario?.Nombre_Formulario || null; // Agrega el campo o null si no existe
+      delete tipoData.Formulario; // Elimina la relación `Formulario` para evitar duplicidad
+      return tipoData;
+    });
+
+    res.json(tiposConNombreFormulario);
   } catch (err) {
     console.error("Error al obtener tipos de servicio:", err);
     res.status(500).json({ error: 'Error al obtener los tipos de servicio' });
   }
 };
+
 
 // Obtener un tipo de servicio por ID
 exports.getTipoServicioById = async (req, res) => {
