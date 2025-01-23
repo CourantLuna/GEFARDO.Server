@@ -19,15 +19,17 @@ exports.getAllFormularios = async (req, res) => {
       ],
     });
 
-    // Formatear el resultado para incluir los campos adicionales y excluir Creador y Modificador
+    // Formatear el resultado para incluir los nombres completos
     const result = formularios.map((form) => {
       const formData = form.toJSON();
       return {
         ...formData,
-        Nombre_Creador_Por: formData.Creador?.Nombre || null,
-        Apellido_Creador_Por: formData.Creador?.Apellido || null,
-        Nombre_Modificado_Por: formData.Modificador?.Nombre || null,
-        Apellido_Modificado_Por: formData.Modificador?.Apellido || null,
+        Nombre_Completo_Creador: formData.Creador
+          ? `${formData.Creador.Nombre} ${formData.Creador.Apellido}`
+          : null,
+        Nombre_Completo_Modificador: formData.Modificador
+          ? `${formData.Modificador.Nombre} ${formData.Modificador.Apellido}`
+          : null,
       };
     });
 
@@ -40,6 +42,7 @@ exports.getAllFormularios = async (req, res) => {
     res.status(500).json({ error: 'Error al obtener los formularios' });
   }
 };
+
 
 
 // Obtener un formulario por ID
