@@ -35,6 +35,10 @@ const ListasVerificacion = sequelize.define('ListasVerificacion', {
         allowNull: true,
         defaultValue: '{"item_auditar": "", "conforme": false}',
     },
+    Estado: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: true
+      },
 }, {
     tableName: 'Listas_Verificacion',
     timestamps: false,
